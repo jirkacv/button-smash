@@ -49,15 +49,30 @@ module App =
         Drawing.clearCanvas roughCanvas
         true
 
+    let setCanvasSizeFromWindowSize() =
+        let height = Browser.window.innerHeight
+        let width = Browser.window.innerWidth    
+
+        let context = canvas.getContext_2d()
+        let image = context.getImageData (0., 0., width, height)
+
+        canvas.height <- height
+        canvas.width <- width
+    
+        context.putImageData (image, 0., 0.)
+
+    let handleResize (e: Browser.UIEvent) = 
+        setCanvasSizeFromWindowSize()
+
     let init() =
         let controller = Browser.document.getElementById "controller"
         controller.onkeypress <- handleKey
         controller.onclick <- handleClick
         // controller.ondblclick <- handleDblClick
         controller.oncontextmenu <- handleDblClick
+        Browser.window.onresize <- handleResize
 
-        canvas.height <- Browser.window.innerHeight
-        canvas.width <- Browser.window.innerWidth
+        setCanvasSizeFromWindowSize()
 
         let context = canvas.getContext_2d()
         context.font <- "20px Comic Sans"

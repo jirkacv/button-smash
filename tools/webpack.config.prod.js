@@ -1,6 +1,7 @@
 var webpack = require("webpack");
 var common = require("./webpack.config.common");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 console.log("Bundling for production...");
 
@@ -15,7 +16,8 @@ module.exports = {
   },
   plugins: common.getPlugins().concat([
     // new ExtractTextPlugin('style.css'),
-    new CopyWebpackPlugin([{ from: common.config.publicDir }])
+    new CopyWebpackPlugin([{ from: common.config.publicDir }]),
+    new MinifyPlugin(),
   ]),
   resolve: {
     modules: [common.config.nodeModulesDir]

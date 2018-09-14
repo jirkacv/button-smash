@@ -3,7 +3,6 @@ var path = require("path");
 var fableUtils = require("fable-utils");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackPolyfillIOPlugin = require('html-webpack-polyfill-io-plugin');
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 // var DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
 
 var packageJson = JSON.parse(fs.readFileSync(resolve('../package.json')).toString());
@@ -85,7 +84,6 @@ function getPlugins(isProduction) {
       // minify: isProduction ? {} : false
     }),
     new HtmlWebpackPolyfillIOPlugin({ features: "es6" }),
-    new MinifyPlugin(),
     // new DynamicCdnWebpackPlugin({ verbose: true, only: config.cdnModules }),
   ];
 }
