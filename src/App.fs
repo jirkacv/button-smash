@@ -10,6 +10,9 @@ open System
 
 module App =
     let canvas = Browser.document.getElementsByTagName_canvas().[0]
+
+    let context = canvas.getContext_2d()
+
     let roughCanvas = RoughCanvas canvas None
 
     let blockedKeys = [|
@@ -22,11 +25,22 @@ module App =
         32 // space
     |]
 
+    let helpKeys = [|
+        72 // h
+        104 // H
+    |]
+
     let shouldBlockKey (e: Browser.KeyboardEvent): bool =
         Array.contains (e.which |> int) blockedKeys
 
     let isClearingKey (e: Browser.KeyboardEvent): bool =
         Array.contains (e.which |> int) clearingKeys
+
+    let isHelpKey (e: Browser.KeyboardEvent): bool =
+        Array.contains (e.which |> int) helpKeys
+
+    let printHelp() =
+        context.fillText("Smash buttons to draw, press space to clear :) ", 10., 30.)
 
     let handleKey (e: Browser.KeyboardEvent) =
         match e with
@@ -35,6 +49,9 @@ module App =
             false
         | e when (e |> isClearingKey) = true ->
             Drawing.clearCanvas roughCanvas
+            true
+        | e when (e |> isHelpKey) = true ->
+            printHelp()
             true
         | _ ->
             (Drawing.drawRandomShape roughCanvas None) |> ignore
@@ -51,17 +68,16 @@ module App =
 
     let setCanvasSizeFromWindowSize() =
         let height = Browser.window.innerHeight
-        let width = Browser.window.innerWidth    
+        let width = Browser.window.innerWidth
 
-        let context = canvas.getContext_2d()
         let image = context.getImageData (0., 0., width, height)
 
         canvas.height <- height
         canvas.width <- width
-    
+
         context.putImageData (image, 0., 0.)
 
-    let handleResize (e: Browser.UIEvent) = 
+    let handleResize (e: Browser.UIEvent) =
         setCanvasSizeFromWindowSize()
 
     let init() =
@@ -74,10 +90,9 @@ module App =
 
         setCanvasSizeFromWindowSize()
 
-        let context = canvas.getContext_2d()
         context.font <- "20px Comic Sans"
-        
-        context.fillText("Smash buttons to draw, press space to clear :) ", 10., 30.)
+
+        printHelp()
 
 
     init() |> ignore

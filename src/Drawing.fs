@@ -24,6 +24,7 @@ module Drawing =
         "blue"
         "black"
         "white"
+        "gray"
     |]
 
     let clearCanvas (roughCanvas: Roughjs.ICanvas) =
