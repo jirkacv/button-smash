@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: common.getPlugins().concat([
     // new ExtractTextPlugin('style.css'),
-    new CopyWebpackPlugin([ { from: common.config.publicDir } ])
+    new CopyWebpackPlugin([{ from: common.config.publicDir }])
   ]),
   resolve: {
     modules: [common.config.nodeModulesDir]

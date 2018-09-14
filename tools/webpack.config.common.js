@@ -3,6 +3,7 @@ var path = require("path");
 var fableUtils = require("fable-utils");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackPolyfillIOPlugin = require('html-webpack-polyfill-io-plugin');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 // var DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
 
 var packageJson = JSON.parse(fs.readFileSync(resolve('../package.json')).toString());
@@ -35,8 +36,23 @@ function forceGet(obj, path, errorMsg) {
 function getModuleRules(isProduction) {
   var babelOptions = fableUtils.resolveBabelOptions({
     presets: [
-      ["env", { "targets": { "browsers": "> 1%" }, "modules": false }]
+      ["env", {
+        "targets": {
+          "browsers": [
+            "last 3 versions",
+            "ie >= 9"
+          ]
+        },
+        "modules": false
+      }]
     ],
+    plugins: [
+      ["transform-runtime", {
+        "helpers": true,
+        "polyfill": false,
+        "regenerator": false
+      }]
+    ]
   });
 
   return [
@@ -46,7 +62,7 @@ function getModuleRules(isProduction) {
         loader: "fable-loader",
         options: {
           babel: babelOptions,
-          define: isProduction ? [] : ["DEBUG"]
+          define: isProduction ? []  : ["DEBUG"]
         }
       }
     },
@@ -68,7 +84,8 @@ function getPlugins(isProduction) {
       template: config.indexHtmlTemplate,
       // minify: isProduction ? {} : false
     }),
-    new HtmlWebpackPolyfillIOPlugin({ features: "es6,fetch" }),
+    new HtmlWebpackPolyfillIOPlugin({ features: "es6" }),
+    new MinifyPlugin(),
     // new DynamicCdnWebpackPlugin({ verbose: true, only: config.cdnModules }),
   ];
 }

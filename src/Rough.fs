@@ -24,14 +24,14 @@ module Roughjs =
         | Path2Dpattern
 
     type Op =
-      abstract op: OpType
-      abstract data: int[]
+        abstract op: OpType
+        abstract data: int[]
 
     type OpSet =
-      abstract ``type``: OpSetType
-      abstract ops: Op[]
-      abstract size: Point
-      abstract path: string
+        abstract ``type``: OpSetType
+        abstract ops: Op[]
+        abstract size: Point
+        abstract path: string
 
     type IOptions =
         abstract maxRandomnessOffset: int with get, set
@@ -49,22 +49,22 @@ module Roughjs =
         abstract simplification: int with get, set
 
     type Drawable =
-      abstract shape: string
-      abstract options: IOptions
-      abstract sets: OpSet[]
+        abstract shape: string
+        abstract options: IOptions
+        abstract sets: OpSet[]
 
     type IConfig =
-      abstract async: bool with get,set
-      abstract options: IOptions  with get,set
-      abstract noWorker: bool with get,set
-      abstract worklyURL: string with get,set
+        abstract async: bool with get,set
+        abstract options: IOptions  with get,set
+        abstract noWorker: bool with get,set
+        abstract worklyURL: string with get,set
 
     type ICanvas =
-      abstract rectangle: x: int * y: int * width: int * height: int * ?options: IOptions -> Drawable
-      abstract line: x1: int * y1: int * x2: int * y2: int * ?options: IOptions -> Drawable
-      abstract ellipse: x: int * y: int * width: int * height: int * ?options: IOptions -> Drawable
-      abstract circle: x: int * y: int * diameter: int * ?options: IOptions -> Drawable
-      abstract canvas: HTMLCanvasElement with get, set
+        abstract rectangle: x: int * y: int * width: int * height: int * ?options: IOptions -> Drawable
+        abstract line: x1: int * y1: int * x2: int * y2: int * ?options: IOptions -> Drawable
+        abstract ellipse: x: int * y: int * width: int * height: int * ?options: IOptions -> Drawable
+        abstract circle: x: int * y: int * diameter: int * ?options: IOptions -> Drawable
+        abstract canvas: HTMLCanvasElement with get, set
 
     type IRough =
         abstract canvas : HTMLCanvasElement -> Option<IConfig> -> ICanvas
