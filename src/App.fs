@@ -9,6 +9,8 @@ open Roughjs
 open System
 
 module App =
+    let controller = Browser.document.getElementById "controller"
+
     let canvas = Browser.document.getElementsByTagName_canvas().[0]
 
     let context = canvas.getContext_2d()
@@ -40,6 +42,7 @@ module App =
         Array.contains (e.which |> int) helpKeys
 
     let printHelp() =
+        context.font <- "20px Comic Sans"
         context.fillText("Smash buttons to draw, press space to clear :) ", 10., 30.)
 
     let handleKey (e: Browser.KeyboardEvent) =
@@ -67,8 +70,8 @@ module App =
         true
 
     let setCanvasSizeFromWindowSize() =
-        let height = Browser.window.innerHeight
-        let width = Browser.window.innerWidth
+        let height = controller.clientHeight 
+        let width = controller.clientWidth
 
         let image = context.getImageData (0., 0., width, height)
 
@@ -81,7 +84,6 @@ module App =
         setCanvasSizeFromWindowSize()
 
     let init() =
-        let controller = Browser.document.getElementById "controller"
         controller.onkeypress <- handleKey
         controller.onclick <- handleClick
         // controller.ondblclick <- handleDblClick
@@ -89,8 +91,6 @@ module App =
         Browser.window.onresize <- handleResize
 
         setCanvasSizeFromWindowSize()
-
-        context.font <- "20px Comic Sans"
 
         printHelp()
 
