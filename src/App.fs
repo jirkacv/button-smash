@@ -70,8 +70,8 @@ module App =
         true
 
     let setCanvasSizeFromWindowSize() =
-        let height = controller.clientHeight 
-        let width = controller.clientWidth
+        let height = Browser.window.innerHeight 
+        let width = Browser.window.innerWidth
 
         let image = context.getImageData (0., 0., width, height)
 
@@ -84,7 +84,7 @@ module App =
         setCanvasSizeFromWindowSize()
 
     let init() =
-        controller.onkeypress <- handleKey
+        controller.onkeydown <- handleKey
         controller.onclick <- handleClick
         // controller.ondblclick <- handleDblClick
         controller.oncontextmenu <- handleDblClick
